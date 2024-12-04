@@ -99,5 +99,6 @@
             BodyId = bodyId;
             CategoryId = categoryId;
         }
+        public Component() { }
     }
 }

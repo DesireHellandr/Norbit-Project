@@ -36,5 +36,6 @@
             name = _name;
             description = _description;
         }
+        public Category() { }
     }
 }

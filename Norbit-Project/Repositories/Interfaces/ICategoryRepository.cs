@@ -1,6 +1,6 @@
 ﻿using Norbit_Project.Models;
 
-namespace Norbit_Project.Repositories
+namespace Norbit_Project.Repositories.Interfaces
 {
     public interface ICategoryRepository
     {

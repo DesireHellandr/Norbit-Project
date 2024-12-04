@@ -2,59 +2,59 @@
 using Norbit_Project.Models;
 using Norbit_Project.Repositories;
 
+
+
 namespace Norbit_Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly CategoryRepository _repository;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(CategoryRepository repository)
         {
-            _categoryRepository = categoryRepository;
+            _repository = repository;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<Category>> GetCategories()
+        [HttpGet] // Для получения всех категорий
+        public ActionResult GetAll()
         {
-            return Ok(_categoryRepository.GetAllCategories());
+            var categories = _repository.GetAll();
+            return Ok(categories);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Category> GetCategory(int id)
+        [HttpGet("{id}")] // Для получения категории по ID
+        public ActionResult GetById(int id)
         {
-            var category = _categoryRepository.GetCategoryById(id);
+            var category = _repository.GetById(id);
             if (category == null)
-            {
                 return NotFound();
-            }
+
             return Ok(category);
         }
 
-        [HttpPost]
-        public ActionResult<Category> PostCategory(Category category)
+        [HttpPost] // Для добавления новой категории
+        public ActionResult Create(Category category)
         {
-            _categoryRepository.AddCategory(category);
-            return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, category);
+            _repository.Add(category);
+            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult PutCategory(int id, Category category)
+        [HttpPut("{id}")] // Для обновления категории
+        public ActionResult Update(int id, Category category)
         {
             if (id != category.Id)
-            {
                 return BadRequest();
-            }
 
-            _categoryRepository.UpdateCategory(category);
+            _repository.Update(category);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(int id)
+        [HttpDelete("{id}")] // Для удаления категории
+        public ActionResult Delete(int id)
         {
-            _categoryRepository.DeleteCategory(id);
+            _repository.Delete(id);
             return NoContent();
         }
     }
