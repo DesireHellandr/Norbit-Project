@@ -2,18 +2,39 @@
 {
     public class Category
     {
-        private int Id { get; set; }
-        private string Name { get; set; }
-
-        private string Description { get; set; }
-
-        private int ParentCategoryId { get; set; }
-
-        public Category(int id, string name, string description)
+        private int id;
+        public int Id
         {
-            Id = id;
-            Name = name;
-            Description = description;
+            get { return id; }
+            set { id = value; }
+        }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        private int parentCategoryId;
+        public int ParentCategoryId
+        {
+            get { return parentCategoryId; }
+            set { parentCategoryId = value; }
+        }
+
+        public Category(int _id, string _name, string _description)
+        {
+            id = _id;
+            name = _name;
+            description = _description;
         }
     }
 }

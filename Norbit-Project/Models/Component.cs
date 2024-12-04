@@ -2,24 +2,75 @@
 {
     public class Component
     {
-        private int Id { get; set; }
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-        private string Name { get; set; }
-        private string Note { get; set; }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
-        private double Price { get; set; }
+        private string note;
+        public string Note
+        {
+            get { return note; }
+            set { note = value; }
+        }
 
-        private string DateAudit { get; set; }
+        private double price;
+        public double Price
+        {
+            get { return price; }
+            set { price = value; }
+        }
 
-        private string Img {  get; set; }
+        private string dateAudit;
+        public string DateAudit
+        {
+            get { return dateAudit; }
+            set { dateAudit = value; }
+        }
 
-        private string PinoutImg { get; set; }
+        private string img;
+        public string Img
+        {
+            get { return img; }
+            set { img = value; }
+        }
 
-        private int PlaceId { get; set; }
+        private string pinoutImg;
+        public string PinoutImg
+        {
+            get { return pinoutImg; }
+            set { pinoutImg = value; }
+        }
 
-        private int BodyId { get; set; } 
+        private int placeId;
+        public int PlaceId
+        {
+            get { return placeId; }
+            set { placeId = value; }
+        }
 
-        private int CategoryId { get; set; }
+        private int bodyId;
+        public int BodyId
+        {
+            get { return bodyId; }
+            set { bodyId = value; }
+        }
+
+        private int? categoryId;
+        public int? CategoryId
+        {
+            get { return categoryId; }
+            set { categoryId = value; }
+        }
 
         public Component(int id, string name, string note, double price, string dateAudit, string img, string pinoutImg, int placeId, int bodyId, int categoryId)
         {
@@ -34,6 +85,7 @@
             BodyId = bodyId;
             CategoryId = categoryId;
         }
+
         public Component(string name, string note, double price, string dateAudit, string img, string pinoutImg, int placeId, int bodyId, int categoryId)
         {
             Id = 0;

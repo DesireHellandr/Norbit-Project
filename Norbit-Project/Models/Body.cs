@@ -2,13 +2,42 @@
 {
     public class Body
     {
-        private int Id { get; set; }
-        private string Name { get; set; }
-        private string Description { get; set; }
-        private string Img { get; set; }
-        private string SchematicImg { get; set; }
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-        public Body (int id, string name, string description, string img, string schematicImg)
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        private string img;
+        public string Img
+        {
+            get { return img; }
+            set { img = value; }
+        }
+
+        private string schematicImg;
+        public string SchematicImg
+        {
+            get { return schematicImg; }
+            set { schematicImg = value; }
+        }
+
+        public Body(int id, string name, string description, string img, string schematicImg)
         {
             Id = id;
             Name = name;
