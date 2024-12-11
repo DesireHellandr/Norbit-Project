@@ -9,6 +9,7 @@
         public virtual DbSet<Body> bodies { get; set; } = null!;
         public virtual DbSet<Place> places { get; set; } = null!;
         public virtual DbSet<Component> components { get; set; } = null!;
+        public virtual DbSet<User> users { get; set; } = null!;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
