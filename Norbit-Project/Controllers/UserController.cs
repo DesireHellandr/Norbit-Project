@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Norbit_Project.Data;
 using Norbit_Project.Models;
 using Norbit_Project.Repositories;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Norbit_Project.Controllers
 {
@@ -37,6 +43,7 @@ namespace Norbit_Project.Controllers
             return Ok(new { Token = token });
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
@@ -47,16 +54,54 @@ namespace Norbit_Project.Controllers
 
         private string GenerateJwtToken(User user)
         {
-            // Реализация генерации токена
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("role", user.RoleId.ToString())
+            };
+
+            var key = AuthOptions.GetSymmetricSecurityKey(); // Получаем симметричный ключ
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         private string HashPassword(string password)
         {
             // Реализация хеширования
+            using (var hmac = new HMACSHA512())
+            {
+                var salt = hmac.Key;
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                return Convert.ToBase64String(salt) + "." + Convert.ToBase64String(hash);
+            }
         }
 
         private bool VerifyPassword(string password, string hashedPassword)
         {
             // Реализация проверки пароля
+            var parts = hashedPassword.Split(".");
+            var salt = Convert.FromBase64String(parts[0]);
+            var storedHash = Convert.FromBase64String(parts[1]);
+
+            using (var hmac = new HMACSHA512(salt))
+            {
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < hash.Length; i++)
+                    if (hash[i] != storedHash[i]) return false;
+            }
+
+            return true;
         }
     }
+}

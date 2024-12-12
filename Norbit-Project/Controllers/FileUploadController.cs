@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Norbit_Project.Models;
 
 namespace Norbit_Project.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class FileUploadController : Controller
     {

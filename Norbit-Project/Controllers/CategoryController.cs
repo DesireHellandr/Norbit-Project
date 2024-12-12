@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Norbit_Project.Models;
 using Norbit_Project.Repositories;
 
@@ -6,6 +7,7 @@ using Norbit_Project.Repositories;
 
 namespace Norbit_Project.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

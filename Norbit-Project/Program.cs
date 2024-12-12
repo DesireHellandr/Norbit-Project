@@ -19,6 +19,7 @@ builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<PlaceRepository>();
 builder.Services.AddScoped<BodyRepository>();
 builder.Services.AddScoped<ComponentRepository>();
+builder.Services.AddScoped<UserRepository>();
 
 builder.Services.AddControllers();
 

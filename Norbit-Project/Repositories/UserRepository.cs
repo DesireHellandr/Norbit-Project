@@ -1,4 +1,5 @@
-﻿using Norbit_Project.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Norbit_Project.Data;
 using Norbit_Project.Models;
 using Norbit_Project.Repositories.Interfaces;
 
