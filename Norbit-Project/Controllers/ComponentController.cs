@@ -18,16 +18,19 @@ namespace Norbit_Project.Controllers
             _repository = repository;
         }
 
-        [HttpGet] // Для получения всех деталей
-        public ActionResult GetAll()
+        [HttpPost("getAll")] // Для получения всех деталей
+        public ActionResult<IEnumerable<Component>> GetAll()
         {
             var components = _repository.GetAll();
             return Ok(components);
         }
 
-        [HttpGet("{id}")] // Для получения детали по ID
-        public ActionResult GetById(int id)
+        [HttpPost("getById")] // Для получения детали по ID
+        public ActionResult<Component> GetById([FromBody] int id)
         {
+            if (id <= 0)
+                return BadRequest("Invalid ID provided.");
+
             var component = _repository.GetById(id);
             if (component == null)
                 return NotFound();
@@ -36,17 +39,20 @@ namespace Norbit_Project.Controllers
         }
 
         [HttpPost] // Для добавления новой детали
-        public ActionResult Create(Component component)
+        public ActionResult<Component> Create([FromBody] Component component)
         {
+            if (component == null)
+                return BadRequest("Component cannot be null.");
+
             _repository.Add(component);
             return CreatedAtAction(nameof(GetById), new { id = component.Id }, component);
         }
 
-        [HttpPut("{id}")] // Для обновления места хранения
-        public ActionResult Update(int id, Component component)
+        [HttpPut("{id}")] // Для обновления детали
+        public ActionResult Update(int id, [FromBody] Component component)
         {
-            if (id != component.Id)
-                return BadRequest();
+            if (component == null || id != component.Id)
+                return BadRequest("Invalid component data.");
 
             _repository.Update(component);
             return NoContent();
@@ -55,6 +61,9 @@ namespace Norbit_Project.Controllers
         [HttpDelete("{id}")] // Для удаления детали
         public ActionResult Delete(int id)
         {
+            if (id <= 0)
+                return BadRequest("Invalid ID provided.");
+
             _repository.Delete(id);
             return NoContent();
         }

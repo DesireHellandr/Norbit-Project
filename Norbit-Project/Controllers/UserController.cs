@@ -23,8 +23,13 @@ namespace Norbit_Project.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(User user)
+        public async Task<IActionResult> Register([FromBody] User user)
         {
+            if (user == null || string.IsNullOrEmpty(user.Password))
+            {
+                return BadRequest("User data is invalid.");
+            }
+
             user.Password = HashPassword(user.Password); // Метод для хеширования пароля
             await _userRepository.AddUserAsync(user);
             await _userRepository.SaveChangesAsync();
@@ -32,13 +37,19 @@ namespace Norbit_Project.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            var user = await _userRepository.GetUserByEmailAsync(email);
-            if (user == null || !VerifyPassword(password, user.Password)) // Проверка пароля
+            if (loginModel == null || string.IsNullOrEmpty(loginModel.Email) || string.IsNullOrEmpty(loginModel.Password))
+            {
+                return BadRequest("Email and password are required.");
+            }
+
+            var user = await _userRepository.GetUserByEmailAsync(loginModel.Email);
+            if (user == null || !VerifyPassword(loginModel.Password, user.Password)) // Проверка пароля
             {
                 return Unauthorized();
             }
+
             var token = GenerateJwtToken(user); // Метод для генерации токена
             return Ok(new { Token = token });
         }
@@ -49,7 +60,7 @@ namespace Norbit_Project.Controllers
         {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) return NotFound();
-            return user;
+            return Ok(user);
         }
 
         private string GenerateJwtToken(User user)
@@ -103,5 +114,10 @@ namespace Norbit_Project.Controllers
 
             return true;
         }
+    }
+    public class LoginModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

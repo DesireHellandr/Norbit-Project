@@ -19,16 +19,19 @@ namespace Norbit_Project.Controllers
             _repository = repository;
         }
 
-        [HttpGet] // Для получения всех категорий
-        public ActionResult GetAll()
+        [HttpPost("getAll")] // Для получения всех категорий
+        public ActionResult<IEnumerable<Category>> GetAll()
         {
             var categories = _repository.GetAll();
             return Ok(categories);
         }
 
-        [HttpGet("{id}")] // Для получения категории по ID
-        public ActionResult GetById(int id)
+        [HttpPost("getById")] // Для получения категории по ID
+        public ActionResult<Category> GetById([FromBody] int id)
         {
+            if (id <= 0)
+                return BadRequest("Invalid ID provided.");
+
             var category = _repository.GetById(id);
             if (category == null)
                 return NotFound();
@@ -37,17 +40,20 @@ namespace Norbit_Project.Controllers
         }
 
         [HttpPost] // Для добавления новой категории
-        public ActionResult Create(Category category)
+        public ActionResult<Category> Create([FromBody] Category category)
         {
+            if (category == null)
+                return BadRequest("Category cannot be null.");
+
             _repository.Add(category);
             return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
         }
 
         [HttpPut("{id}")] // Для обновления категории
-        public ActionResult Update(int id, Category category)
+        public ActionResult Update(int id, [FromBody] Category category)
         {
-            if (id != category.Id)
-                return BadRequest();
+            if (category == null || id != category.Id)
+                return BadRequest("Invalid category data.");
 
             _repository.Update(category);
             return NoContent();
@@ -56,6 +62,9 @@ namespace Norbit_Project.Controllers
         [HttpDelete("{id}")] // Для удаления категории
         public ActionResult Delete(int id)
         {
+            if (id <= 0)
+                return BadRequest("Invalid ID provided.");
+
             _repository.Delete(id);
             return NoContent();
         }
