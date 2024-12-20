@@ -162,10 +162,10 @@ var componentsList = Vue.component("components-list", {
         <span @click="closeDetailsModal" class="close">&times;</span>
         <h2>Информация о компоненте</h2>
 
-        <label>Название</label>
+        <label>Название:</label>
         <p>{{ selectedComponent.name }}</p>
 
-        <label>Примечание</label>
+        <label>Примечание:</label>
         <p>{{ selectedComponent.note }}</p>
 
         <label>Категория:</label>
