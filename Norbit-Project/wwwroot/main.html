@@ -18,19 +18,123 @@
                     <input type="text" class="search-input" placeholder="Введите текст для поиска...">
                     <button class="primary-button">Поиск</button>
                     <button class="primary-button">Сброс поиска</button>
-                    <button class="primary-button">Добавить</button>
+                    <button class="primary-button" @click="openAddModal(null)">Добавить</button>
                 </div>
             </div>
-            
+
+            <div v-if="isAddModalOpen" class="modal adding-modal">
+                <div class="modal-content">
+                    <span @click="closeAddModal" class="close">&times;</span>
+                    <h2>{{ modalTitle }}</h2>
+
+                    <!-- Условное отображение полей ввода в зависимости от типа -->
+                    <div v-if="currentType === 'place'">
+                        <input v-model="place.name" placeholder="Name" />
+                        <input v-model="place.location" placeholder="Location" />
+                    </div>
+                    <div v-else-if="currentType === 'component'">
+                        <input v-model="component.name" placeholder="Name" />
+                        <input v-model="component.note" placeholder="Note" />
+                        <input v-model="component.price" type="number" placeholder="Price" />
+                        <input v-model="component.dateAudit" type="text" placeholder="DateAudit" />
+                        <label for="bodyId">Выберите тело:</label>
+                        <select v-model="component.bodyId">
+                            <option v-for="body in bodies" :key="body.id" :value="body.id">
+                                {{ body.name }}
+                            </option>
+                        </select>
+
+                        <label for="categoryId">Выберите категорию:</label>
+                        <select v-model="component.categoryId">
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                                {{ category.name }}
+                            </option>
+                        </select>
+
+                        <label for="placeId">Выберите место:</label>
+                        <select v-model="component.placeId">
+                            <option v-for="place in places" :key="place.id" :value="place.id">
+                                {{ place.name }}
+                            </option>
+                        </select>
+
+                        <label for="img">Выберите изображение:</label>
+                        <select v-model="component.img">
+                            <option v-for="image in images" :key="image" :value="image">
+                                {{ image }}
+                            </option>
+                        </select>
+
+                        <label for="pinoutImg">Выберите изображение для распиновки:</label>
+                        <select v-model="component.pinoutImg">
+                            <option v-for="image in images" :key="image" :value="image">
+                                {{ image }}
+                            </option>
+                        </select>
+                    </div>
+                    <div v-else-if="currentType === 'body'">
+                        <input v-model="body.name" placeholder="Name" />
+                        <input v-model="body.description" placeholder="Description" />
+                        <label for="img">Выберите изображение:</label>
+                        <select v-model="body.img">
+                            <option v-for="image in images" :key="image" :value="image">
+                                {{ image }}
+                            </option>
+                        </select>
+                        <label for="schematicImg">Выберите граф. обозначение:</label>
+                        <select v-model="body.schematicImg">
+                            <option v-for="image in images" :key="image" :value="image">
+                                {{ image }}
+                            </option>
+                        </select>
+
+                    </div>
+                    <div v-else-if="currentType === 'category'">
+                        <input v-model="category.name" placeholder="Name" />
+                        <input v-model="category.description" placeholder="Description" />
+                        <label for="categoryId">Выберите род. категорию:</label>
+                        <select v-model="category.parentCategoryId">
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                                {{ category.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div v-else-if="currentType === 'role'">
+                        <input v-model="role.name" placeholder="Name" />
+                        <input v-model="role.permission" placeholder="Permission" />
+                    </div>
+                    <div v-else-if="currentType === 'user'">
+                        <input v-model="user.name" placeholder="Name" />
+                        <input v-model="user.email" placeholder="Email" />
+                        <input v-model="user.password" type="password" placeholder="Password" />
+                        <input v-model="user.roleId" placeholder="Role ID" />
+                    </div>
+
+                    <div v-if="currentType !== null">
+                        <button class="primary-button" @click="addData">Добавить</button>
+                        <button class="primary-button" @click="closeAddModal">Отмена</button>
+                    </div>
+                    <div v-if="currentType == null">
+                        <button @click="openAddModal('place')">Добавить место</button>
+                        <button @click="openAddModal('component')">Добавить компонент</button>
+                        <button @click="openAddModal('body')">Добавить корпус</button>
+                        <button @click="openAddModal('category')">Добавить категорию</button>
+                        <button @click="openAddModal('role')">Добавить роль</button>
+                        <button @click="openAddModal('user')">Добавить пользователя</button>
+                    </div>
+                        
+                    </div>
+                </div>
+
             <div class="middle-container">
                 <div class="categories-container">
                     <h2>Выбор категории</h2>
                     <categories-list :categories="categories" :updateсomponents="updateсomponents" class="category-checkboxes">
-                        
+
                     </categories-list>
                 </div>
                 <div class="components-container">
-                    <components-list :components="components" :bodies="bodies" :places="places" :categories="categories"></components-list>
+                    <components-list :components="components" :bodies="bodies" :places="places" :categories="categories" :images="images"></components-list>
                 </div>
             </div>
         </div>

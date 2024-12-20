@@ -32,6 +32,7 @@ namespace Norbit_Project.Controllers
 
             return Ok(new { Filename = model.File.FileName });
         }
+        [AllowAnonymous]
         [HttpGet("image/{filename}")]
         public IActionResult GetImage(string filename)
         {
@@ -42,6 +43,22 @@ namespace Norbit_Project.Controllers
 
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
             return File(fileBytes, "image/jpeg");
+        }
+
+        [HttpGet("images")]
+        public IActionResult GetAllImages()
+        {
+            var imagesPath = Path.Combine(_environment.ContentRootPath, "uploads");
+
+            if (!Directory.Exists(imagesPath))
+                return NotFound("Directory not found.");
+
+            var imageFiles = Directory.GetFiles(imagesPath, "*.*", SearchOption.TopDirectoryOnly)
+                                       .Select(Path.GetFileName)
+                                       .Where(file => file.EndsWith(".jpg") || file.EndsWith(".jpeg") || file.EndsWith(".png"))
+                                       .ToList();
+
+            return Ok(imageFiles);
         }
     }
 }
