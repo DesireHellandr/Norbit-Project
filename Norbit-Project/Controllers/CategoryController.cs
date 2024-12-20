@@ -19,14 +19,14 @@ namespace Norbit_Project.Controllers
             _repository = repository;
         }
 
-        [HttpPost("getAll")] // Для получения всех категорий
+        [HttpGet("getAll")] // Для получения всех категорий
         public ActionResult<IEnumerable<Category>> GetAll()
         {
             var categories = _repository.GetAll();
             return Ok(categories);
         }
 
-        [HttpPost("getById")] // Для получения категории по ID
+        [HttpGet("getById")] // Для получения категории по ID
         public ActionResult<Category> GetById([FromBody] int id)
         {
             if (id <= 0)

@@ -25,6 +25,13 @@ namespace Norbit_Project.Repositories
             return _context.components.Find(id);
         }
 
+        public IEnumerable<Component> GetComponentsByCategoryId(int categoryId) // Новая реализация
+        {
+            return _context.components
+                .Where(c => c.CategoryId == categoryId)
+                .ToList();
+        }
+
         public void Add(Component component)
         {
             _context.components.Add(component);

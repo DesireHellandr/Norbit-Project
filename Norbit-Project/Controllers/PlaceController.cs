@@ -17,14 +17,14 @@ namespace Norbit_Project.Controllers
             _repository = repository;
         }
 
-        [HttpPost("getAll")] // Для получения всех мест хранения
+        [HttpGet("getAll")] // Для получения всех мест хранения
         public ActionResult<IEnumerable<Place>> GetAll()
         {
             var places = _repository.GetAll();
             return Ok(places);
         }
 
-        [HttpPost("getById")] // Для получения места хранения по ID
+        [HttpGet("getById")] // Для получения места хранения по ID
         public ActionResult<Place> GetById([FromBody] int id)
         {
             if (id <= 0)

@@ -24,7 +24,7 @@ namespace Norbit_Project.Controllers
             return Ok(roles);
         }
 
-        [HttpPost("getById")] // Для получения роли по ID
+        [HttpGet("getById")] // Для получения роли по ID
         public ActionResult<Role> GetById([FromBody] int id)
         {
             if (id <= 0)

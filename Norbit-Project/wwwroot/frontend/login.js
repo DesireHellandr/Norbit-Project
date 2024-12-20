@@ -9,7 +9,7 @@ var app = new Vue({
     methods: {
         login: async function () {
             try {
-                const response = await fetch("./api/Users/login", {
+                const response = await fetch("./api/User/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json; charset=utf-8" },
                     body: JSON.stringify({ email: this.email, password: this.password }),
@@ -31,8 +31,8 @@ var app = new Vue({
 
                 // Сохраняем токен в localStorage
                 localStorage.setItem('jwtToken', token);
-                console.log('Login successful:', token);
-                window.location.href = './main';
+                window.location.href = "./main"
+                
             } catch (error) {
                 console.error('Login failed:', error);
             }

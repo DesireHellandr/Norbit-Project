@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Norbit_Project.Models;
 using Norbit_Project.Repositories;
 using Component = Norbit_Project.Models.Component;
@@ -18,14 +19,14 @@ namespace Norbit_Project.Controllers
             _repository = repository;
         }
 
-        [HttpPost("getAll")] // Для получения всех деталей
+        [HttpGet("getAll")] // Для получения всех деталей
         public ActionResult<IEnumerable<Component>> GetAll()
         {
             var components = _repository.GetAll();
             return Ok(components);
         }
 
-        [HttpPost("getById")] // Для получения детали по ID
+        [HttpGet("getById")] // Для получения детали по ID
         public ActionResult<Component> GetById([FromBody] int id)
         {
             if (id <= 0)
@@ -36,6 +37,19 @@ namespace Norbit_Project.Controllers
                 return NotFound();
 
             return Ok(component);
+        }
+        [HttpGet("getByCategoryId/{categoryId}")] // Для получения компонентов по ID категории
+        public ActionResult<IEnumerable<Component>> GetByCategoryId([FromRoute] int categoryId)
+        {
+            if (categoryId <= 0)
+                return BadRequest("Invalid category ID provided.");
+
+            var components = _repository.GetComponentsByCategoryId(categoryId);
+
+            if (components == null || !components.Any())
+                return NotFound();
+
+            return Ok(components);
         }
 
         [HttpPost] // Для добавления новой детали
