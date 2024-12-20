@@ -1,41 +1,26 @@
 ﻿namespace Norbit_Project.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class User
     {
-        private int id;
-        private string name;
-        private string email;
-        private string password;
-        private int roleId;
+        [Key]
+        public int Id { get; set; }
 
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
-        public string Email
-        {
-            get { return email; }
-            set { email = value; }
-        }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
+        public int RoleId { get; set; }
 
-        public int RoleId
-        {
-            get { return roleId; }
-            set { roleId = value; }
-        }
+        
     }
 }

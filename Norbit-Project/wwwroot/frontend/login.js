@@ -1,4 +1,5 @@
 ﻿import "./frameworks/vue.js"
+import "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js";
 
 var app = new Vue({
     el: '#app',
@@ -9,33 +10,29 @@ var app = new Vue({
     methods: {
         login: async function () {
             try {
-                const response = await fetch("./api/User/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json; charset=utf-8" },
-                    body: JSON.stringify({ email: this.email, password: this.password }),
+                const response = await axios.post("./api/User/login", {
+                    email: this.email,
+                    password: this.password
+                }, {
+                    headers: { "Content-Type": "application/json; charset=utf-8" }
                 });
 
-                // Проверка на успешный ответ
-                if (!response.ok) {
+                if (response.status !== 200) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                // Преобразуем ответ в JSON
-                const data = await response.json();
-
-                // Извлекаем токен из ответа
-                const token = data.token;
+                const token = response.data.token;
                 if (!token) {
                     throw new Error('Token is missing in the response');
                 }
 
-                // Сохраняем токен в localStorage
                 localStorage.setItem('jwtToken', token);
-                window.location.href = "./main"
-                
+
+                window.location.href = "/main"
+
             } catch (error) {
                 console.error('Login failed:', error);
             }
         }
     }
-})
+});

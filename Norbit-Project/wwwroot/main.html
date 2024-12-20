@@ -8,11 +8,11 @@
 </head>
 <body>
     <div id="app">
-        <!--<div class="attention-container">
+        <div v-if="token == null" class="attention-container">
             <h2>Вы не авторизованы</h2>
             <button v-on:click="toLogin" type="submit">Перейти на страницу авторизации</button>
-        </div>-->
-        <div class="main-container">
+        </div>
+        <div v-if="token !== null" class="main-container">
             <div class="navbar">
                 <div class="navbar-container">
                     <input type="text" class="search-input" placeholder="Введите текст для поиска...">

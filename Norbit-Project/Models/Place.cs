@@ -1,27 +1,22 @@
 ﻿namespace Norbit_Project.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Place
     {
-        private int id;
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [Key]
+        public int Id { get; set; }
 
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
-        private string location;
-        public string Location
-        {
-            get { return location; }
-            set { location = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Location { get; set; }
+
+
+        public Place() { }
 
         public Place(int id, string name, string location)
         {

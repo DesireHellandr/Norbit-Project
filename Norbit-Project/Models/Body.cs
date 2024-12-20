@@ -1,41 +1,26 @@
 ﻿namespace Norbit_Project.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Body
     {
-        private int id;
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [Key]
+        public int Id { get; set; }
 
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
-        private string description;
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
+        [StringLength(500)]
+        public string Description { get; set; }
 
-        private string img;
-        public string Img
-        {
-            get { return img; }
-            set { img = value; }
-        }
+        [StringLength(255)]
+        public string Img { get; set; }
 
-        private string schematicImg;
-        public string SchematicImg
-        {
-            get { return schematicImg; }
-            set { schematicImg = value; }
-        }
+        [StringLength(255)]
+        public string SchematicImg { get; set; }
+
+        public Body() { }
 
         public Body(int id, string name, string description, string img, string schematicImg)
         {

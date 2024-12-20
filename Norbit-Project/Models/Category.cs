@@ -1,41 +1,29 @@
 ﻿namespace Norbit_Project.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Category
     {
-        private int id;
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [Key]
+        public int Id { get; set; }
 
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
-        private string description;
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
+        [StringLength(500)]
+        public string Description { get; set; }
 
-        private int parentCategoryId;
-        public int ParentCategoryId
-        {
-            get { return parentCategoryId; }
-            set { parentCategoryId = value; }
-        }
+        public int? ParentCategoryId { get; set; }
 
-        public Category(int _id, string _name, string _description)
-        {
-            id = _id;
-            name = _name;
-            description = _description;
-        }
         public Category() { }
+
+        public Category(int id, string name, string description, int? parentCategoryId = null)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            ParentCategoryId = parentCategoryId;
+        }
     }
 }

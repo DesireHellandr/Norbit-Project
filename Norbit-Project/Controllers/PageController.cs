@@ -20,7 +20,11 @@ namespace Norbit_Project.Controllers
         {
             _environment = environment;
         }
-
+        [HttpGet("login")]
+        public async Task<IActionResult> RedirectToMain()
+        {
+            return Redirect("/main"); // Замените на нужный путь
+        }
         [HttpGet("main")]
         public async Task<IActionResult> GetMainHtml()
         {

@@ -2,6 +2,7 @@
 
 const token = localStorage.getItem('jwtToken');
 
+
 import {
     addBody, addComponent, addPlace, addUser, addCategory, addRole, updBody, updCategory, updComponent, updPlace, updRole, getAllBodies, getAllCategories, getAllComponents, getAllImages, getAllPlaces
 } from "./requests/api.requests.js";
@@ -71,7 +72,7 @@ var componentsList = Vue.component("components-list", {
             <th>Название</th>
             <th>Дополнительно</th>
             <th>Цена</th>
-            <th>Год проверки</th>
+            <th>Дата ревизии</th>
             <th>Находится</th>
             <th>Категория</th>
             <th>Корпус</th>
@@ -299,6 +300,9 @@ var app = new Vue({
             this.category = { id: null, name: '', description: '', parentCategoryId: null };
             this.role = { id: null, name: '', permission: '' };
             this.user = { id: null, name: '', email: '', password: '', roleId: null };
+        },
+        toLogin() {
+            window.location.href = "./";
         },
         async addData() {
             try {

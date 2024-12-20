@@ -1,78 +1,37 @@
 ﻿namespace Norbit_Project.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Component
     {
-        private int id;
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [Key]
+        public int Id { get; set; }
 
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
-        private string note;
-        public string Note
-        {
-            get { return note; }
-            set { note = value; }
-        }
+        [StringLength(500)]
+        public string Note { get; set; }
 
-        private double price;
-        public double Price
-        {
-            get { return price; }
-            set { price = value; }
-        }
+        [Range(0, double.MaxValue)]
+        public double Price { get; set; }
 
-        private string dateAudit;
-        public string DateAudit
-        {
-            get { return dateAudit; }
-            set { dateAudit = value; }
-        }
+        [StringLength(50)]
+        public string DateAudit { get; set; }
 
-        private string img;
-        public string Img
-        {
-            get { return img; }
-            set { img = value; }
-        }
+        [StringLength(255)]
+        public string Img { get; set; }
 
-        private string pinoutImg;
-        public string PinoutImg
-        {
-            get { return pinoutImg; }
-            set { pinoutImg = value; }
-        }
+        [StringLength(255)]
+        public string PinoutImg { get; set; }
 
-        private int placeId;
-        public int PlaceId
-        {
-            get { return placeId; }
-            set { placeId = value; }
-        }
+        public int PlaceId { get; set; }
+        public int BodyId { get; set; }
 
-        private int bodyId;
-        public int BodyId
-        {
-            get { return bodyId; }
-            set { bodyId = value; }
-        }
+        public int? CategoryId { get; set; }
 
-        private int? categoryId;
-        public int? CategoryId
-        {
-            get { return categoryId; }
-            set { categoryId = value; }
-        }
-
-        public Component(int id, string name, string note, double price, string dateAudit, string img, string pinoutImg, int placeId, int bodyId, int categoryId)
+        public Component(int id, string name, string note, double price, string dateAudit, string img, string pinoutImg, int placeId, int bodyId, int? categoryId)
         {
             Id = id;
             Name = name;
@@ -86,7 +45,7 @@
             CategoryId = categoryId;
         }
 
-        public Component(string name, string note, double price, string dateAudit, string img, string pinoutImg, int placeId, int bodyId, int categoryId)
+        public Component(string name, string note, double price, string dateAudit, string img, string pinoutImg, int placeId, int bodyId, int? categoryId)
         {
             Id = 0;
             Name = name;
@@ -99,6 +58,7 @@
             BodyId = bodyId;
             CategoryId = categoryId;
         }
+
         public Component() { }
     }
 }

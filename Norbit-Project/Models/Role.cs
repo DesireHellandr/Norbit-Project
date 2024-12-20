@@ -1,27 +1,18 @@
 ﻿namespace Norbit_Project.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Role
     {
-        private int id;
-        private string name;
-        private int permission;
+        [Key]
+        public int Id { get; set; }
 
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        public int Permission { get; set; }
 
-        public int Permission
-        {
-            get { return permission; }
-            set { permission = value; }
-        }
+        
     }
 }
